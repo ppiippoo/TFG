@@ -1,6 +1,6 @@
 import os
 import random
-import argparse
+import sys
 from tqdm import tqdm
 
 import torch
@@ -85,6 +85,7 @@ def train_model(model, train_loader, test_loader, device, epochs=10, lr=0.001):
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=lr)
     final_accuracy = 0
+    #optimizer = torch.optim.SGD(model.parameters(), lr=lr, weight_decay = 0.005, momentum = 0.9)  
 
     model.to(device)
 
@@ -233,12 +234,7 @@ def experiment3(train_dataset, test_dataset, model, batch_size, num_classes, epo
 
 # Experiment 4: LPIPS Filtering
 # Use LPIPS to evaluate similarities between test images and training images,
-# and remove for each test image the 6 most similar training images.    
-    # Display the image.
-    plt.imshow(image_np)
-    plt.title(f"Label: {label}")
-    plt.axis("off")
-    plt.show()
+# and remove for each test image the 6 most similar training images.
 def experiment4(train_dataset, test_dataset, model, batch_size, num_classes, epochs, learning_rate):
     print("[Experiment 4] LPIPS Filtering: Removing similar training images based on LPIPS.")
     # First, generate the training set with transformed test images, as in experiment3.
@@ -380,9 +376,13 @@ def experiment5(train_dataset, test_dataset, model, batch_size, num_classes, epo
 
 
 def main():
+    if(len(sys.argv) < 3):
+        print("wrong usage: python3 experiments.py <1/2/3/4/5> <alexnet/resnet50>")
+        exit(-1)
+
     data_dir = "./cifar_images_train_test/CIFAR-10-images/"
-    experiment = 1        # 1,2,3,4,5,
-    model = "alexnet"     # "alexnet" or "resnet50"
+    experiment = int(sys.argv[1])        # 1,2,3,4,5,
+    model = sys.argv[2]     # "alexnet" or "resnet50"
     batch_size = 64
     num_classes = 10
     epochs =  20
@@ -402,4 +402,5 @@ def main():
     elif experiment == 5:
         experiment5(train_dataset, test_dataset, model, batch_size, num_classes, epochs, learning_rate)
 
-main()
+if __name__ == "__main__":
+    main()
