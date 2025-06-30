@@ -1,3 +1,3 @@
 # TFG
 
-THE REPOSITORY IS NOT UP TO DATE
+experiments_final and final_testing_metric are the final versions
