@@ -193,6 +193,7 @@ def experiment4(train_dataset, excluded_train_dataset, test_dataset, batch_size,
     indices_to_remove_1 = set()
     indices_to_remove_2 = set()
     indices_to_remove_3 = set()
+    indices_to_remove_4 = set()
 
     # THIS LOOP IS EXPENSIVE
     #for test_img, _ in tqdm(test_dataset, desc="LPIPS Filtering"):
@@ -219,38 +220,47 @@ def experiment4(train_dataset, excluded_train_dataset, test_dataset, batch_size,
         # Remove 10 most similar training images for this test image.
         for k in range(10):
             indices_to_remove_2.add(distances[k][0])
+        # Remove 12 most similar training images for this test image.
+        for k in range(12):
+            indices_to_remove_3.add(distances[k][0])
         # Remove 15 most similar training images for this test image.
         for k in range(15):
-            indices_to_remove_3.add(distances[k][0])
+            indices_to_remove_4.add(distances[k][0])
 
     # Remove selected training images.
     filtered_train_examples_1 = [ex for idx, ex in enumerate(new_train_examples) if idx not in indices_to_remove_1]
     filtered_train_examples_2 = [ex for idx, ex in enumerate(new_train_examples) if idx not in indices_to_remove_2]
     filtered_train_examples_3 = [ex for idx, ex in enumerate(new_train_examples) if idx not in indices_to_remove_3]
+    filtered_train_examples_4 = [ex for idx, ex in enumerate(new_train_examples) if idx not in indices_to_remove_4]
+
 
 
     # To keep the training set size consistent, we need to add extra samples.
     repopulate(filtered_train_examples_1, new_train_examples, train_examples_removed, excluded_train_dataset)
     repopulate(filtered_train_examples_2, new_train_examples, train_examples_removed, excluded_train_dataset)
     repopulate(filtered_train_examples_3, new_train_examples, train_examples_removed, excluded_train_dataset)
+    repopulate(filtered_train_examples_4, new_train_examples, train_examples_removed, excluded_train_dataset)
 
     new_train_dataset = CustomListDataset(filtered_train_examples_1)
     train_loader = DataLoader(new_train_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, num_workers=4)
     
     #num_classes = len(train_dataset.dataset.classes) if isinstance(train_dataset, Subset) else len(train_dataset.classes)
+    
+    # training alexnet and resnet removing 6 images per test item
     print("Num neigh: 6")
     print("Training ALEXNET")
     model = get_model("alexnet", num_classes)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    train_model(model, train_loader, test_loader, device, epochs=epochs, lr=learning_rate)
+    accuracy_alexnet_1 = train_model(model, train_loader, test_loader, device, epochs=epochs, lr=learning_rate)
 
     print("")
     print("Training RESNET-50")
     model = get_model("resnet50", num_classes)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    train_model(model, train_loader, test_loader, device, epochs=epochs, lr=learning_rate)
+    accuracy_resnet_1 = train_model(model, train_loader, test_loader, device, epochs=epochs, lr=learning_rate)
 
+    # training alexnet and resnet removing 10 images per test item
     new_train_dataset = CustomListDataset(filtered_train_examples_2)
     train_loader = DataLoader(new_train_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
     print("")
@@ -258,28 +268,51 @@ def experiment4(train_dataset, excluded_train_dataset, test_dataset, batch_size,
     print("Training ALEXNET")
     model = get_model("alexnet", num_classes)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    train_model(model, train_loader, test_loader, device, epochs=epochs, lr=learning_rate)
+    accuracy_alexnet_2 = train_model(model, train_loader, test_loader, device, epochs=epochs, lr=learning_rate)
 
     print("")
     print("Training RESNET-50")
     model = get_model("resnet50", num_classes)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    train_model(model, train_loader, test_loader, device, epochs=epochs, lr=learning_rate)
+    accuracy_resnet_2 = train_model(model, train_loader, test_loader, device, epochs=epochs, lr=learning_rate)
 
+    # training alexnet and resnet removing 12 images per test item
     new_train_dataset = CustomListDataset(filtered_train_examples_3)
+    train_loader = DataLoader(new_train_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
+    print("")
+    print("Num neigh: 12")
+    print("Training ALEXNET")
+    model = get_model("alexnet", num_classes)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    accuracy_alexnet_3 = train_model(model, train_loader, test_loader, device, epochs=epochs, lr=learning_rate)
+
+    print("")
+    print("Training RESNET-50")
+    model = get_model("resnet50", num_classes)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    accuracy_resnet_3(model, train_loader, test_loader, device, epochs=epochs, lr=learning_rate)
+
+    # training alexnet and resnet removing 15 images per test item
+    new_train_dataset = CustomListDataset(filtered_train_examples_4)
     train_loader = DataLoader(new_train_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
     print("")
     print("Num neigh: 15")
     print("Training ALEXNET")
     model = get_model("alexnet", num_classes)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    train_model(model, train_loader, test_loader, device, epochs=epochs, lr=learning_rate)
+    accuracy_alexnet_4 = train_model(model, train_loader, test_loader, device, epochs=epochs, lr=learning_rate)
 
     print("")
     print("Training RESNET-50")
     model = get_model("resnet50", num_classes)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    train_model(model, train_loader, test_loader, device, epochs=epochs, lr=learning_rate)
+    accuracy_resnet_4 = train_model(model, train_loader, test_loader, device, epochs=epochs, lr=learning_rate)
+
+    print(f"Accuracy removing 6: alexnet={accuracy_alexnet_1:.2f} accuracy_resnet={accuracy_resnet_1:.2f}")
+    print(f"Accuracy removing 10: alexnet={accuracy_alexnet_2:.2f} accuracy_resnet={accuracy_resnet_2:.2f}")
+    print(f"Accuracy removing 12: alexnet={accuracy_alexnet_3:.2f} accuracy_resnet={accuracy_resnet_3:.2f}")
+    print(f"Accuracy removing 6: alexnet={accuracy_alexnet_4:.2f} accuracy_resnet={accuracy_resnet_4:.2f}")
+
 
 
 def experiment4_threshold(train_dataset, excluded_train_dataset, test_dataset, model, batch_size, num_classes, epochs, learning_rate):
@@ -360,7 +393,7 @@ def main():
     epochs =  20
     learning_rate = 0.0001
 
-    train_dataset, excluded_train_dataset, test_dataset = get_datasets(data_dir,200,2)
+    train_dataset, excluded_train_dataset, test_dataset = get_datasets(data_dir)
     if experiment == 1:
         experiment4(train_dataset, excluded_train_dataset, test_dataset, batch_size, num_classes, epochs, learning_rate)
     elif experiment == 2:
