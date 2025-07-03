@@ -290,7 +290,7 @@ def experiment4(train_dataset, excluded_train_dataset, test_dataset, batch_size,
     print("Training RESNET-50")
     model = get_model("resnet50", num_classes)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    accuracy_resnet_3(model, train_loader, test_loader, device, epochs=epochs, lr=learning_rate)
+    accuracy_resnet_3 = train_model(model, train_loader, test_loader, device, epochs=epochs, lr=learning_rate)
 
     # training alexnet and resnet removing 15 images per test item
     new_train_dataset = CustomListDataset(filtered_train_examples_4)
