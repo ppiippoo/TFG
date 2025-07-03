@@ -311,7 +311,7 @@ def experiment4(train_dataset, excluded_train_dataset, test_dataset, batch_size,
     print(f"Accuracy removing 6: alexnet={accuracy_alexnet_1:.2f} accuracy_resnet={accuracy_resnet_1:.2f}")
     print(f"Accuracy removing 10: alexnet={accuracy_alexnet_2:.2f} accuracy_resnet={accuracy_resnet_2:.2f}")
     print(f"Accuracy removing 12: alexnet={accuracy_alexnet_3:.2f} accuracy_resnet={accuracy_resnet_3:.2f}")
-    print(f"Accuracy removing 6: alexnet={accuracy_alexnet_4:.2f} accuracy_resnet={accuracy_resnet_4:.2f}")
+    print(f"Accuracy removing 15: alexnet={accuracy_alexnet_4:.2f} accuracy_resnet={accuracy_resnet_4:.2f}")
 
 
 
