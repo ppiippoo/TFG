@@ -14,7 +14,7 @@ import lpips  # pip install lpips
 # **********************
 # TO SET THE RANDOM SEED
 # **********************
-random.seed(10)
+random.seed(11)
 
 
 def lpips_distance(loss_fn, tensor_img0, tensor_img1):
