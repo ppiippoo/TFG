@@ -451,7 +451,7 @@ def main():
     epochs =  20
     learning_rate = 0.0001
 
-    train_dataset, excluded_train_dataset, test_dataset = get_datasets(data_dir,20,2)
+    train_dataset, excluded_train_dataset, test_dataset = get_datasets(data_dir)
     if experiment == 1:
         experiment4(train_dataset, excluded_train_dataset, test_dataset, batch_size, num_classes, epochs, learning_rate)
     elif experiment == 2:
