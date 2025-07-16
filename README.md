@@ -3,7 +3,7 @@
 📦 Installation Instructions
 
 To install the repository and the required programs, run the following command in a terminal (bash or cmd):
-```bash
+
     $ git clone https://github.com/ppiippoo/TFG.git
 
 🛠️ Main Libraries Used
@@ -22,8 +22,7 @@ To install the repository and the required programs, run the following command i
 
 To install all required libraries:
 
-```bash
-    $pip install torch torchvision lpips matplotlib tqdm opencv-python numpy
+    $ pip install torch torchvision lpips matplotlib tqdm opencv-python numpy
 
 🚀 Running Experiments
 
@@ -47,27 +46,27 @@ python3 experiments.py <n> <model> [<threshold/removing_n>]
 
     Clean training
 
-python3 experiments.py 1 alexnet
-
-Contamination with specific transformation
-
-python3 experiments.py 2 alexnet
-
-Contamination with near-duplicates
-
-python3 experiments.py 3 alexnet
-
-Contamination with exact duplicates
-
-python3 experiments.py 4 alexnet
-
-Decontamination using threshold
-
-python3 experiments.py 5 alexnet 0.5
-
-Decontamination by removing n near-duplicates
-
-    python3 experiments.py 6 alexnet 10
+        python3 experiments.py 1 alexnet
+    
+    Contamination with specific transformation
+    
+        python3 experiments.py 2 alexnet
+    
+    Contamination with near-duplicates
+    
+        python3 experiments.py 3 alexnet
+    
+    Contamination with exact duplicates
+    
+        python3 experiments.py 4 alexnet
+    
+    Decontamination using threshold
+    
+        python3 experiments.py 5 alexnet 0.5
+    
+    Decontamination by removing n near-duplicates
+    
+        python3 experiments.py 6 alexnet 10
 
     🧠 To use resnet-50 instead of alexnet, just replace "alexnet" with "resnet-50" in the command.
 
