@@ -557,13 +557,23 @@ def contamination_with_specific_transformation_without_mean_distance(train_datas
 
 def main():
     if(len(sys.argv) < 3):
-        print("wrong usage: python3 experiments.py <1/2/3/4/5> <alexnet/resnet50>")
+        print("wrong usage: python3 experiments.py <1/2/3/4/5> <alexnet/resnet50> [<thresold>/<num_neigh_to_remove>]")
         exit(-1)
 
     data_dir = "./cifar_images_train_test/CIFAR-10-images/"
     experiment = int(sys.argv[1])        # 1,2,3,4,5,6
     model = sys.argv[2]     # "alexnet" or "resnet50"
-    threshold = 0.5
+
+    if(experiment == 4):
+        if(len(sys.argv) < 4):
+            threshold = 0.5
+        else:
+            threshold = float(sys.argv[3])
+    elif(experiment == 5):
+        if(len(sys.argv) < 4):
+            neigh_to_remove = 6
+        else:
+            neigh_to_remove = int(sys.argv[3])
 
     train_dataset, excluded_train_dataset, test_dataset = get_datasets(data_dir)
     if experiment == 1:
@@ -577,7 +587,7 @@ def main():
     elif experiment == 3:
         near_duplicates_contamination(train_dataset, test_dataset, model)
     elif experiment == 4:
-        decontamination_removing_n_duplicates(train_dataset, excluded_train_dataset, test_dataset, model)
+        decontamination_removing_n_duplicates(train_dataset, excluded_train_dataset, test_dataset, model, neigh_to_remove)
     elif experiment == 5:
         decontamination_with_threshold(train_dataset, excluded_train_dataset,test_dataset, model, threshold)
     elif experiment == 6:
