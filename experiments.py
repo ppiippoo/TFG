@@ -564,12 +564,12 @@ def main():
     experiment = int(sys.argv[1])        # 1,2,3,4,5,6
     model = sys.argv[2]     # "alexnet" or "resnet50"
 
-    if(experiment == 4):
+    if(experiment == 5):
         if(len(sys.argv) < 4):
             threshold = 0.5
         else:
             threshold = float(sys.argv[3])
-    elif(experiment == 5):
+    elif(experiment == 6):
         if(len(sys.argv) < 4):
             neigh_to_remove = 6
         else:
@@ -579,21 +579,22 @@ def main():
     if experiment == 1:
         clean_training(train_dataset, test_dataset, model)
     elif experiment == 10:
-        clean_training_with_mean_lpips_distance(train_dataset, test_dataset, model)
+        clean_training_with_mean_lpips_distance(train_dataset, test_dataset, model
     elif experiment == 2:
-        exact_duplicates_contamination(train_dataset, test_dataset, model)
+        contamination_with_specific_transformation(train_dataset, test_dataset, model)
     elif experiment == 20:
-        exct_duplicates_with_repetition_contamination(train_dataset, test_dataset, model)
+        contamination_with_specific_transformation_without_mean_distance(train_dataset, test_dataset, model)
     elif experiment == 3:
         near_duplicates_contamination(train_dataset, test_dataset, model)
     elif experiment == 4:
-        decontamination_removing_n_duplicates(train_dataset, excluded_train_dataset, test_dataset, model, neigh_to_remove)
+        exact_duplicates_contamination(train_dataset, test_dataset, model)
+    elif experiment == 40:
+        exct_duplicates_with_repetition_contamination(train_dataset, test_dataset, model)
     elif experiment == 5:
         decontamination_with_threshold(train_dataset, excluded_train_dataset,test_dataset, model, threshold)
     elif experiment == 6:
-        contamination_with_specific_transformation(train_dataset, test_dataset, model)
-    elif experiment == 60:
-        contamination_with_specific_transformation_without_mean_distance(train_dataset, test_dataset, model)
+        decontamination_removing_n_duplicates(train_dataset, excluded_train_dataset, test_dataset, model, neigh_to_remove)
+    
         
 if __name__ == "__main__":
     main()
