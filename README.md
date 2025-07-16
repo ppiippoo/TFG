@@ -54,21 +54,21 @@ python3 experiments.py <n> <model> [<threshold/removing_n>]
 
 - Contamination with near-duplicates
 
-    python3 experiments.py 3 alexnet
+        python3 experiments.py 3 alexnet
 
 - Contamination with exact duplicates
 
-    python3 experiments.py 4 alexnet
+        python3 experiments.py 4 alexnet
 
 - Decontamination using threshold
 
-    python3 experiments.py 5 alexnet 0.5
+        python3 experiments.py 5 alexnet 0.5
 
 - Decontamination by removing n near-duplicates
 
-    python3 experiments.py 6 alexnet 10
+        python3 experiments.py 6 alexnet 10
 
-🧠 To use resnet-50 instead of alexnet, just replace "alexnet" with "resnet-50" in the command.
+    🧠 To use resnet-50 instead of alexnet, just replace "alexnet" with "resnet-50" in the command.
 
 📌 Reproducibility Notes
 
