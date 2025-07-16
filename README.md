@@ -3,8 +3,8 @@
 📦 Installation Instructions
 
 To install the repository and the required programs, run the following command in a terminal (bash or cmd):
-
-git clone https://github.com/ppiippoo/TFG.git
+```bash
+    $ git clone https://github.com/ppiippoo/TFG.git
 
 🛠️ Main Libraries Used
 
@@ -22,7 +22,8 @@ git clone https://github.com/ppiippoo/TFG.git
 
 To install all required libraries:
 
-pip install torch torchvision lpips matplotlib tqdm opencv-python numpy
+```bash
+    $pip install torch torchvision lpips matplotlib tqdm opencv-python numpy
 
 🚀 Running Experiments
 
